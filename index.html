@@ -9,15 +9,20 @@
 <body>
     <div class="mainContainer">
         <h1> Caesar's Cipher</h1>
-        <label for ="original">Original Message</label>
-        <input id="original" type="text" value="pizzapizzapizza">
+        
+        <label for ="original">Type your message here:</label>
+        <input id="original" type="text" value="">
 
-        <label for="shift">Shift</label>
+        <label for="shift">Shift by:</label>
         <input id="shift" type="number" value="2" placeholder="0">
+
+        <div class="buttonContainer">
+            <button id="encodeBtn" class="button" role="button">Encode</button>
+            <button id="decodeBtn" class="button" role="button">Decode</button>
+          </div>
 
         <hr>
 
-        <label for="'encrypted">Encrypted Message</label>
         <input id="encrypted" type="text" value="readonly">
     </div>
 

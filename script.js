@@ -1,3 +1,5 @@
+let mode = "encode";
+
 let originalInput = document.querySelector("#original");
 let shiftInput = document.querySelector("#shift");
 let encryptedInput = document.querySelector("#encrypted");
@@ -7,15 +9,25 @@ let originalMessage = originalInput.value;
 originalInput.addEventListener("input", characterEntered, false);
 shiftInput.addEventListener("input", numberEntered, false);
 
+document.querySelector("#encodeBtn").addEventListener("click", () => {
+    mode = "encode";
+    startEncryption();
+});
+
+document.querySelector("#decodeBtn").addEventListener("click", () => {
+    mode = "decode";
+    startEncryption();
+});
+
+
 function characterEntered(e) {
+    encryptedInput.value = "";
+
     originalMessage = e.target.value;
     originalMessage = originalMessage.toLowerCase();
-    originalMessage = originalMessage.replace(/[^a-z]/, '');
+    originalMessage = originalMessage.replace(/[^a-z ]/, '');
 
     e.target.value = originalMessage;
-
-    startEncryption();
-
 }
 
 function numberEntered(e) {
@@ -26,6 +38,10 @@ function startEncryption() {
     let encryptedMessage = "";
     let shift = shiftInput.value ? Number(shiftInput.value) : 0;
 
+    if (mode === "decode") {
+        shift = -shift;
+    }
+
     for (letter of originalMessage) {
         encryptedMessage += shiftLetter(letter,shift);
     }
@@ -33,12 +49,16 @@ function startEncryption() {
     encryptedInput.value = encryptedMessage;
 
 }
+
 startEncryption();
 
-function shiftLetter(letter,shift) {
-    let newLetter = "";
+function shiftLetter(letter, shift) {
+    // If the character is a space, return it unchanged
+    if (letter === ' ') {
+        return ' ';
+    }
 
-    let letterCode = letter.charCodeAt (0);
+    let letterCode = letter.charCodeAt(0);
     let newLetterCode = letterCode + (shift % 26);
 
     if (newLetterCode < 97) {
@@ -47,7 +67,5 @@ function shiftLetter(letter,shift) {
         newLetterCode -= 26;
     }
 
-    newLetter = String.fromCharCode(newLetterCode);
-
-    return newLetter;
+    return String.fromCharCode(newLetterCode);
 }
